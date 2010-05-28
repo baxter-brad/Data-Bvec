@@ -1,7 +1,7 @@
 #---------------------------------------------------------------------
 package Data::Bvec;
 
-use 5.008006;
+use 5.008003;
 use strict;
 use warnings;
 use Carp;
@@ -16,13 +16,13 @@ Data::Bvec - a module to manipulate integer arrays as bit vectors and
 
 =head1 VERSION
 
-VERSION: 1.00
+VERSION: 1.01
 
 =cut
 
 our $VERSION;
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 =head1 SYNOPSIS
 
