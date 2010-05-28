@@ -22,7 +22,7 @@ VERSION: 1.00
 
 our $VERSION;
 
-$VERSION = '1.00';  $VERSION = eval $VERSION;
+$VERSION = '1.00';
 
 =head1 SYNOPSIS
 
