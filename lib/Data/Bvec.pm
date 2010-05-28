@@ -208,8 +208,8 @@ A reference to an array of integers.
 
 Examples:
 
-    my $vec = num2bit [1,2,3];  01110000
-    my $vec = num2bit [3,2,1];  01110000
+    my $vec = num2bit [1,2,3];  # 01110000
+    my $vec = num2bit [3,2,1];  # 01110000
 
 The second example is intended to make clear that the order of the
 integers in the array is not retained (for obvious reasons), and
@@ -222,42 +222,6 @@ sub num2bit {
     my $bvec = "";
     vec( $bvec, $_, 1 ) = 1 for @{$_[0]};
     $bvec;  # returned
-}
-
-#---------------------------------------------------------------------
-
-=head2 howmany( $vec, $zero_or_one )
-
-This routine returns a count of the 0 or 1 bits in a bit vector.
-
-=head3 Parameters:
-
-=head4 $vec
-
-A bit vector.
-
-=head4 $zero_or_one
-
-The value you want a count of: 0 or 1.  Defaults to 1 if not given.
-
-Examples:
-
-    my $vec = str2bit '01010010';
-    my $ones_count  = howmany $vec;     # 3
-    my $zeros_count = howmany $vec, 0;  # 5
-
-Note that howmany( $vec, 0 ) will include trailing zero bits.
-
-=cut
-
-sub howmany {
-    my( $bvec, $bitval ) = @_;
-
-    $bitval = 1 unless defined $bitval;
-
-    my $setbits = unpack "%32b*", $bvec;
-    return $setbits if $bitval;
-    return 8 * length( $bvec ) - $setbits;  # includes trailing 0's
 }
 
 #---------------------------------------------------------------------
@@ -294,9 +258,9 @@ Examples:
     my $vec  = str2bit '01110011110001111100001111110001';
 
     my $set1 = bit2num $vec,  1, 5;  # [  1,  2,  3,  6,  7 ]
-    my $set1 = bit2num $vec,  6, 5;  # [  8,  9, 13, 14, 15 ]
-    my $set2 = bit2num $vec, 11, 5;  # [ 16, 17, 22, 23, 24 ]
-    my $set2 = bit2num $vec, 16, 5;  # [ 25, 26, 27, 31     ]
+    my $set2 = bit2num $vec,  6, 5;  # [  8,  9, 13, 14, 15 ]
+    my $set3 = bit2num $vec, 11, 5;  # [ 16, 17, 22, 23, 24 ]
+    my $set4 = bit2num $vec, 16, 5;  # [ 25, 26, 27, 31     ]
 
 =cut
 
@@ -349,8 +313,9 @@ Note: the length of the string need not be a multiple of 8.
 Example:
 
     my $bstr;
-    $bstr = compress '01110000';            # '-134'
-    $bstr = compress '1'x100.'0'x30.'1'x6;  # '+@1cU6
+    $bstr = compress '01110000';  # '-134'
+    my $str = ('1'x100).('0'x30).('1'x6);
+    $bstr = compress $str;        # '+@1cU6'
 
 =head3 Compression Scheme
 
@@ -458,6 +423,42 @@ sub uncompress {
     }
 
     $ret;  # returned
+}
+
+#---------------------------------------------------------------------
+
+=head2 howmany( $vec, $zero_or_one )
+
+This routine returns a count of the 0 or 1 bits in a bit vector.
+
+=head3 Parameters:
+
+=head4 $vec
+
+A bit vector.
+
+=head4 $zero_or_one
+
+The value you want a count of: 0 or 1.  Defaults to 1 if not given.
+
+Examples:
+
+    my $vec = str2bit '01010010';
+    my $ones_count  = howmany $vec;     # 3
+    my $zeros_count = howmany $vec, 0;  # 5
+
+Note that howmany( $vec, 0 ) will include trailing zero bits.
+
+=cut
+
+sub howmany {
+    my( $bvec, $bitval ) = @_;
+
+    $bitval = 1 unless defined $bitval;
+
+    my $setbits = unpack "%32b*", $bvec;
+    return $setbits if $bitval;
+    return 8 * length( $bvec ) - $setbits;  # includes trailing 0's
 }
 
 #---------------------------------------------------------------------
@@ -570,7 +571,7 @@ sub new {
 This routine takes no parameters.  It returns a bit vector, regardless
 how the integers are stored.  The object is not changed.
 
-    my $vec = $bv->get_bvec()
+    my $vec = $bv->get_bvec();
 
 =cut
 
@@ -590,7 +591,7 @@ sub get_bvec {
 This routine takes no parameters.  It returns a compressed bit string,
 regardless how the integers are stored.  The object is not changed.
 
-    my $bstr = $bv->get_bstr()
+    my $bstr = $bv->get_bstr();
 
 =cut
 

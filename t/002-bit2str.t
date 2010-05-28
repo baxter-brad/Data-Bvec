@@ -1,4 +1,4 @@
-use Test::More tests => 1;
+use Test::More;
 
 use Data::Bvec qw( set_bit bit2str );
 
@@ -11,3 +11,5 @@ POD: {
 is( $str, '00001000', 'bit2str() POD' );
 
 }
+
+use Test::More tests => 1;
